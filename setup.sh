@@ -10,13 +10,13 @@ if [ ! -z $distro_family ]; then
 		echo ""
 		echo "==================================UNUSED PACKAGES=================================="
 		sudo pacman -Qtdq
-	elif [ $distro_family=='debian' ]; then
+	elif [ $distro_family==*'debian'* ]; then
 		echo ""
 		echo "============================UPDATING && UPGRADING============================"
 		sudo apt-get update && apt-get upgrade
 		echo ""
 		echo "==========================INSTALLING DEPENDENCIES=========================="
-		sudo apt-get install build-essential python3 python-is-python3 git code snapd telegram-desktop discord gnome-tweaks
+		sudo apt-get install build-essential python3 python-is-python3 git code snapd telegram-desktop discord gnome-tweaks mscorefonts-installer
 		echo ""
 		echo "===================================HOUSE CLEANING==================================="
 		sudo apt autoclean && apt-get autoremove
