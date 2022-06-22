@@ -52,7 +52,8 @@ if [[ $distro_family == *"debian"* ]]; then
 fi
 
 # * settting up kaggle api
-gdown  --fuzzy https://drive.google.com/drive/folders/12aEYZUCEV13P51VSF7EIyis-ALPsLD9P?usp=sharing -O $HOME/
+mkdir -p $HOME/.kaggle
+gdown  --fuzzy https://drive.google.com/file/d/14kD-I5mmHLYG_DNXfzbn_851o8j8nD8W/view?usp=sharing -O $HOME/.kaggle/
 sudo chmod 600 $HOME/.kaggle/kaggle.json
 
 # * installing nerd fonts
