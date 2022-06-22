@@ -5,7 +5,7 @@ if [[ ! -z $distro_family ]]; then
 		echo "==========================INSTALLING DEPENDENCIES=========================="
 		# * enable AUR packages for pamac
 		sudo sed -Ei 'EnableAUR/s/^#//' /etc/pamac.conf
-		sudo pacman -Syyu --needed base-devel git wget yajl python3 code snapd telegram-desktop discord gnome-tweaks python-pip neofetch
+		sudo pacman -Syyu --needed base-devel git wget yajl python3 code snapd telegram-desktop discord gnome-tweaks python-pip neofetch postgresql xclip xsel opencl-mesa opencl-amd opencl-legacy-amdgpu-pro rocm-opencl-runtime amdapp-sdk
 		echo ""
 		echo "=============================REMOVING UNINSTALLED============================="
 		sudo pacman -Sc
@@ -18,7 +18,11 @@ if [[ ! -z $distro_family ]]; then
 		sudo apt-get update && apt-get upgrade
 		echo ""
 		echo "==========================INSTALLING DEPENDENCIES=========================="
-		sudo apt-get install build-essential python3 python-is-python3 git code snapd telegram-desktop discord gnome-tweaks python3-pip neofetch zsh git-extras
+		sudo apt-get install build-essential python3 python-is-python3 git code snapd telegram-desktop discord gnome-tweaks python3-pip neofetch zsh git-extras postgresql postgresql-contrib xclip xsel tensorman docker gnome-session
+		# * adding tensorman to docker group
+		sudo usermod -aG docker $USER
+		# * adding kernal parameter 
+		sudo kernelstub --add-options "systemd.unified_cgroup_hierarchy=0"
 		echo ""
 		echo "===================================HOUSE CLEANING==================================="
 		sudo apt autoclean && apt-get autoremove
@@ -46,6 +50,10 @@ if [[ $distro_family == *"debian"* ]]; then
 	echo "use to install zsh-syntax-highlighting: git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_CUSTOM/plugins/zsh-syntax-highlighting"
 	echo "gdown is not added to path, add /home/\$USER/.local/bin to path"
 fi
+
+# * settting up kaggle api
+gdown  --fuzzy https://drive.google.com/drive/folders/12aEYZUCEV13P51VSF7EIyis-ALPsLD9P?usp=sharing -O $HOME/
+sudo chmod 600 $HOME/.kaggle/kaggle.json
 
 # * installing nerd fonts
 echo "======================================INSTALLING NERD FONTS======================================"
