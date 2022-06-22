@@ -3,7 +3,9 @@ distro_family=$(cat /etc/os-release | grep "^ID_LIKE" | cut -b 9-30)
 if [[ ! -z $distro_family ]]; then
 	if [[ $distro_family == *'arch'* ]]; then
 		echo "==========================INSTALLING DEPENDENCIES=========================="
-		sudo pacman -Syyu --needed base-devel git wget yajl python3 python-is-python3 code snapd telegram-desktop discord gnome-tweaks python3-pip
+		# * enable AUR packages for pamac
+		sudo sed -Ei 'EnableAUR/s/^#//' /etc/pamac.conf
+		sudo pacman -Syyu --needed base-devel git wget yajl python3 code snapd telegram-desktop discord gnome-tweaks python-pip neofetch
 		echo ""
 		echo "=============================REMOVING UNINSTALLED============================="
 		sudo pacman -Sc
@@ -16,18 +18,41 @@ if [[ ! -z $distro_family ]]; then
 		sudo apt-get update && apt-get upgrade
 		echo ""
 		echo "==========================INSTALLING DEPENDENCIES=========================="
-		sudo apt-get install build-essential python3 python-is-python3 git code snapd telegram-desktop discord gnome-tweaks python3-pip
+		sudo apt-get install build-essential python3 python-is-python3 git code snapd telegram-desktop discord gnome-tweaks python3-pip neofetch zsh git-extras
 		echo ""
 		echo "===================================HOUSE CLEANING==================================="
 		sudo apt autoclean && apt-get autoremove
 	fi
 fi
 
-# Installing python packages for my work
+# * Installing python packages for my work
 echo ""
 echo "==================================PYTHON DEPENDENCIES=================================="
-pip install --upgrade google-compute-engine google-cloud-storage matplotlib tensorflow sklearn plotly pandas pyspark numpy gcloud kaggle torch docker kubernetes jupyter notebook anaconda keras bs4 scipy scrapy seaborn theano mahotas pillow simpleitk requests selenium pytest gsutil psutil
+pip install --upgrade google-compute-engine google-cloud-storage matplotlib tensorflow sklearn plotly pandas pyspark numpy gcloud kaggle torch docker kubernetes jupyter notebook anaconda keras bs4 scipy scrapy seaborn theano mahotas pillow simpleitk requests selenium pytest gsutil psutil gdown
 
 echo ""
 echo "================================REMOVING CACHED PACKAGES================================"
 pip cache purge
+
+if [[ $distro_family == *"debian" ]]; then
+	# * installing oh-my-zsh
+	echo "======================================SETTING UP OH-MY-ZSH======================================"
+	sudo sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+	export PATH=$PATH:/home/$USER/.local/bin
+	gdown -fuzzy https://drive.google.com/file/d/1MVR3yxRAJ9Oq_msjA9kB9izlXM55LCZ2/view?usp=sharing -O $HOME/.zshrc
+	sed -i 's/diysumit/$USER/' $HOME/.zshrc
+	chsh -s $(which zsh) $(whoami)
+	echo "use to install zsh-autosuggestions: git clone https://github.com/zsh-users/zsh-autosuggestions.git $ZSH_CUSTOM/plugins/zsh-autosuggestions"
+	echo "use to install zsh-syntax-highlighting: git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_CUSTOM/plugins/zsh-syntax-highlighting"
+	echo "gdown is not added to path, add /home/\$USER/.local/bin to path"
+fi
+
+# * installing nerd fonts
+echo "======================================INSTALLING NERD FONTS======================================"
+git clone https://github.com/ryanoasis/nerd-fonts.git
+cd nerd-fonts
+./install.sh
+cd ..
+rm -rv nerd-fonts
+echo "Login again for changes to take effect"
+zsh
