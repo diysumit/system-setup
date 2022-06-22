@@ -34,12 +34,12 @@ echo ""
 echo "================================REMOVING CACHED PACKAGES================================"
 pip cache purge
 
-if [[ $distro_family == *"debian" ]]; then
+if [[ $distro_family == *"debian"* ]]; then
 	# * installing oh-my-zsh
 	echo "======================================SETTING UP OH-MY-ZSH======================================"
 	sudo sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 	export PATH=$PATH:/home/$USER/.local/bin
-	gdown -fuzzy https://drive.google.com/file/d/1MVR3yxRAJ9Oq_msjA9kB9izlXM55LCZ2/view?usp=sharing -O $HOME/.zshrc
+	gdown --fuzzy https://drive.google.com/file/d/1MVR3yxRAJ9Oq_msjA9kB9izlXM55LCZ2/view?usp=sharing -O $HOME/.zshrc
 	sed -i 's/diysumit/$USER/' $HOME/.zshrc
 	chsh -s $(which zsh) $(whoami)
 	echo "use to install zsh-autosuggestions: git clone https://github.com/zsh-users/zsh-autosuggestions.git $ZSH_CUSTOM/plugins/zsh-autosuggestions"
