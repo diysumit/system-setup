@@ -57,7 +57,7 @@ echo -e "${RED}${BOLD}gdown is not added to path, add ${BLUE}/home/\$USER/.local
 
 # * settting up kaggle api
 mkdir -p $HOME/.kaggle
-gdown  --fuzzy https://drive.google.com/file/d/14kD-I5mmHLYG_DNXfzbn_851o8j8nD8W/view?usp=sharing -O $HOME/.kaggle/
+gdown  --fuzzy [drive-link] -O $HOME/.kaggle/
 sudo chmod 600 $HOME/.kaggle/kaggle.json
 
 # * installing nerd fonts
