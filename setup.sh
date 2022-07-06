@@ -13,10 +13,10 @@ NORM=$(tput sgr0)
 distro_family=$(cat /etc/os-release | grep "^ID_LIKE" | cut -b 9-30)
 
 #! arch_packages
-arch_packages=( git wget yajl python3 python-pip python-wheel code snapd telegram-desktop discord gnome-tweaks python-pip neofetch postgresql xclip xsel opencl-mesa )
+arch_packages=( git wget yajl python3 python-pip python-wheel code snapd telegram-desktop discord gnome-tweaks python-pip neofetch postgresql xclip xsel opencl-mesa puppet refind )
 
 #! debian_packages
-debian_packages=( python3 python-is-python3 git code snapd telegram-desktop discord gnome-tweaks python3-pip neofetch git-extras postgresql postgresql-contrib xclip xsel tensorman docker gnome-session )
+debian_packages=( python3 python-is-python3 git code snapd telegram-desktop discord gnome-tweaks python3-pip neofetch git-extras postgresql postgresql-contrib xclip xsel tensorman docker gnome-session puppet refind )
 
 #! python_packages
 python_packages=( google-compute-engine google-cloud-storage gcloud gsutil psutil gdown kaggle docker kubernetes jupyter notebook anaconda matplotlib plotly pandas sklearn scipy numpy keras bs4 scrapy seaborn theano pillow simpleitk requests selenium pytest apache-beam apache-beam[dataframe] apache-beam[gcp] apache-beam[interactive] apache-beam[test] apache-beam[docs] tensorflow torch dataprep apache-airflow tensorflow_transform modin pyspark )
@@ -43,7 +43,12 @@ if [[ ! -z $distro_family ]]; then #! Checking empty variable
 	#! debian linux
 	elif [[ $distro_family == *'debian'* ]]; then
 		echo ""
+		echo "============================ADDING REPOSITORIES============================"
+            #! adding repositories
+            sudo apt-add-repository ppa:rodsmith/refind
+		echo ""
 		echo "============================UPDATING && UPGRADING============================"
+            #! updating and upgrading
 		sudo apt-get update && apt-get upgrade
 		echo ""
 		echo "==========================INSTALLING DEPENDENCIES=========================="
@@ -92,7 +97,7 @@ echo -e "${RED}${BOLD}install zsh-syntax-highlighting: ${BLUE}git clone https://
 
 #! settting up kaggle api
 mkdir -p $HOME/.kaggle
-$kaggle_GDrive=""
+Kaggle_GDrive=""
 gdown  --fuzzy $Kaggle_GDrive -O $HOME/.kaggle/
 sudo chmod 600 $HOME/.kaggle/kaggle.json
 
